@@ -1,6 +1,6 @@
 import { tableSchema } from '@nozbe/watermelondb';
 
-export const userSchema = tableSchema({
+const userSchema = tableSchema({
   name: 'users',
   columns: [
     {
@@ -25,3 +25,5 @@ export const userSchema = tableSchema({
     },
   ]
 })
+
+export { userSchema }
