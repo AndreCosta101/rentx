@@ -40,19 +40,19 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function signIn({ email, password }: SignInCredentials) {
     try {
+
       const response = await api.post('/sessions', {
         email,
         password
       });
 
       const { token, user } = response.data;
-
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
       const userCollection = database.get<UserModel>('users');
+      console.log('DATABASE');
 
-
-
+      console.log(database.collections)
       await database.write(async () => {
         await userCollection.create((newUser) => {
           newUser.user_id = user.id,
@@ -62,10 +62,11 @@ function AuthProvider({ children }: AuthProviderProps) {
             newUser.avatar = user.avatar,
             newUser.token = token
         })
-      })
+      });
 
 
-      setData({ ...user, token })
+
+      setData({ ...user, token });
 
     } catch (error) {
 

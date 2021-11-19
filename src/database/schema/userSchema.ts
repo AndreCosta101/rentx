@@ -12,6 +12,10 @@ const userSchema = tableSchema({
       type: 'string'
     },
     {
+      name: 'email',
+      type: 'string'
+    },
+    {
       name: 'driver_license',
       type: 'string'
     },

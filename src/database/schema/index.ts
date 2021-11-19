@@ -3,7 +3,7 @@ import { appSchema } from '@nozbe/watermelondb';
 import { userSchema } from './userSchema';
 
 const schemas = appSchema({
-  version: 1,
+  version: 3,
   tables: [
     userSchema
   ]

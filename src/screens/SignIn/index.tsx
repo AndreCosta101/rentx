@@ -49,7 +49,6 @@ export function SignIn() {
 
       if (email && password) {
         signIn({ email, password })
-        console.log('aqui?')
       }
 
     } catch (error) {
