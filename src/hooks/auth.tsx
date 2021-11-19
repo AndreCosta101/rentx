@@ -50,9 +50,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
       const userCollection = database.get<UserModel>('users');
-      console.log('DATABASE');
 
-      console.log(database.collections)
       await database.write(async () => {
         await userCollection.create((newUser) => {
           newUser.user_id = user.id,
@@ -63,8 +61,6 @@ function AuthProvider({ children }: AuthProviderProps) {
             newUser.token = token
         })
       });
-
-
 
       setData({ ...user, token });
 
@@ -78,8 +74,12 @@ function AuthProvider({ children }: AuthProviderProps) {
     async function loadUserData() {
       const userCollection = database.get<UserModel>('users');
       const response = await userCollection.query().fetch();
-      console.log('## USUÁRIO LOGADO ##')
-      console.log(response)
+
+      if (response.length > 0) {
+        const userData = response[0]._raw as unknown as User;
+        api.defaults.headers.common['Authorization']
+        setData(userData);
+      }
     }
     loadUserData();
 
