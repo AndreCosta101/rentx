@@ -15,7 +15,6 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { PasswordInput } from '../../components/PasswordInput';
 
-import { database } from '../../database';
 
 import {
   Container,
@@ -46,10 +45,11 @@ export function SignIn() {
       })
 
       await schema.validate({ email, password })
-      Alert.alert('deu certo!')
+      // Alert.alert('deu certo!')
 
       if (email && password) {
         signIn({ email, password })
+        console.log('aqui?')
       }
 
     } catch (error) {
@@ -65,15 +65,7 @@ export function SignIn() {
     navigation.navigate('SignUpFirstStep')
   }
 
-  useEffect(() => {
-    async function loadData() {
-      const userCollection = database.get('users');
-      const users = await userCollection.query().fetch();
-      console.log(users)
-    }
-    loadData();
 
-  }, []);
 
   return (
     <KeyboardAvoidingView behavior="position" enabled>

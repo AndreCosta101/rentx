@@ -12,7 +12,7 @@ const userSchema = tableSchema({
       type: 'string'
     },
     {
-      name: 'drivers_license',
+      name: 'driver_license',
       type: 'string'
     },
     {

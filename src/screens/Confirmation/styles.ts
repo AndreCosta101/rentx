@@ -32,7 +32,7 @@ export const Message = styled.Text`
   line-height: ${RFValue(25)}px;
   text-align: center;
 
-  margin-top: 16px;
+  margin-top: 30px;
 
 `;
 
@@ -40,6 +40,6 @@ export const Footer = styled.View`
   width: 100%;
   align-items: center;
 
-  margin: 0 0 80px;
+  margin: 0 0 40px;
 `;
 
