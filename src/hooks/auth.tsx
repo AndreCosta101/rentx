@@ -63,11 +63,12 @@ function AuthProvider({ children }: AuthProviderProps) {
             newUser.token = token
         })
       })
-      console.log('passou');
-      console.log(userCollection)
+
+
+      setData({ ...user, token })
 
     } catch (error) {
-      console.log('FUDEEEEEEEEU')
+
       throw new Error(error as string)
     }
   }
