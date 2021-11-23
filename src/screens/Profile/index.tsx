@@ -4,6 +4,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard
 } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/core';
 import { useTheme } from 'styled-components';
 import { Feather } from '@expo/vector-icons';
@@ -32,9 +33,14 @@ import { PasswordInput } from '../../components/PasswordInput';
 import { useAuth } from '../../hooks/auth';
 
 export function Profile() {
-  const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>('dataEdit')
-
   const { user } = useAuth();
+  const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>('dataEdit')
+  const [avatar, setAvatar] = useState(user.avatar);
+  const [name, setName] = useState(user.name);
+  const [driverLicense, setDriverLicense] = useState(user.driver_license);
+
+
+
   const theme = useTheme();
   const navigation = useNavigation();
 
@@ -49,6 +55,24 @@ export function Profile() {
   function handleOptionChange(optionSelected: 'dataEdit' | 'passwordEdit') {
     setOption(optionSelected)
   }
+
+  async function handleAvatarSelect() {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    if (result.cancelled) {
+      return;
+    }
+
+    if (result.uri) {
+      setAvatar(result.uri)
+    }
+  }
+
   return (
     <KeyboardAvoidingView behavior="position" enabled>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -63,8 +87,8 @@ export function Profile() {
             </HeaderTop>
 
             <PhotoContainer>
-              <Photo source={{ uri: "https://github.com/andrecosta101.png" }} />
-              <PhotoButton onPress={() => { }}>
+              {!!avatar && <Photo source={{ uri: avatar }} />}
+              <PhotoButton onPress={handleAvatarSelect}>
                 <Feather
                   name="camera"
                   size={24}
