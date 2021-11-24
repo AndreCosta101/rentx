@@ -79,8 +79,8 @@ export function Profile() {
         name: Yup.string()
           .required('Nome é obrigatório')
       })
-
       const data = { name, driverLicense }
+      console.log('###DATA', data)
       await schema.validate(data);
 
       await updateUser({
@@ -92,7 +92,7 @@ export function Profile() {
         avatar,
         token: user.token
       });
-
+      // console.log(user)
       Alert.alert('Perfil atualizado');
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -105,6 +105,23 @@ export function Profile() {
 
   }
 
+  async function handleSignOut() {
+    Alert.alert(
+      'Tem certeza?',
+      'Se sair precisará de conexão à internet para voltar',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => { },
+        },
+        {
+          text: 'Sair',
+          onPress: () => signOut(),
+        },
+      ]
+    )
+  }
+
   return (
     <KeyboardAvoidingView behavior="position" enabled>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -113,7 +130,7 @@ export function Profile() {
             <HeaderTop>
               <BackButton color={theme.colors.shape} onPress={handleBack} />
               <HeaderTitle>Editar Perfil</HeaderTitle>
-              <LogoutButton onPress={signOut}>
+              <LogoutButton onPress={handleSignOut}>
                 <Feather name='power' size={24} color={theme.colors.shape} />
               </LogoutButton>
             </HeaderTop>
@@ -159,6 +176,7 @@ export function Profile() {
                     placeholder="Nome"
                     autoCorrect={false}
                     defaultValue={user.name}
+                    onChangeText={setName}
                   />
                   <Input
                     iconName="mail"
@@ -170,6 +188,7 @@ export function Profile() {
                     placeholder="CNH"
                     keyboardType="numeric"
                     defaultValue={user.driver_license}
+                    onChangeText={setDriverLicense}
                   />
                 </Section>
                 :
