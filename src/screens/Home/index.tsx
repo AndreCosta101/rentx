@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar, BackHandler } from 'react-native';
+import { StatusBar, BackHandler, Alert } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useNavigation } from '@react-navigation/native';
+import { useNetInfo } from '@react-native-community/netinfo';
+
 
 import { api } from '../../services/api';
 import { CarDTO } from '../../dtos/CarDTO';
@@ -21,6 +23,8 @@ import {
 export function Home() {
   const [cars, setCars] = useState<CarDTO[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const netInfo = useNetInfo();
   const navigation = useNavigation<any>();
 
   function handleCarDetails(car: CarDTO) {
@@ -46,18 +50,24 @@ export function Home() {
     }
 
     fetchCars();
+
+    // prevenir que o usuário volte para a splash screen
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      return true;
+    })
     return () => {
       isMounted = false;
     }
   }, [])
 
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      return true;
-    })
+    if (netInfo.isConnected) {
+      Alert.alert('Você está online')
+    } else {
+      Alert.alert('Você está off-line')
+    }
 
-
-  }, []);
+  }, [netInfo.isConnected]);
 
   return (
     <Container>
