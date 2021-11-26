@@ -30,7 +30,7 @@ export function Home() {
   const netInfo = useNetInfo();
   const navigation = useNavigation<any>();
 
-  function handleCarDetails(car: CarDTO) {
+  function handleCarDetails(car: CarModel) {
     navigation.navigate('CarDetails', { car });
   }
 
@@ -38,10 +38,12 @@ export function Home() {
     await synchronize({
       database,
       pullChanges: async ({ lastPulledAt }) => {
-        const response = await api
+        const { data } = await api
           .get(`cars/sync/pull?lastPulledVersion=${lastPulledAt || 0}`)
-
-        const { changes, latestVersion } = response.data;
+        console.log('##### RESPONSE DATA ####')
+        // console.log(JSON.stringify(data, null, 2));
+        console.log(data)
+        const { changes, latestVersion } = data;
         return { changes, timestamp: latestVersion };
 
       },
@@ -58,7 +60,11 @@ export function Home() {
     async function fetchCars() {
       try {
         const carCollection = database.get<CarModel>('cars');
+        console.log('CARCOLLECTION');
+
+        console.log(carCollection)
         const cars = await carCollection.query().fetch();
+        console.log(cars)
 
         if (isMounted) {
           setCars(cars)
