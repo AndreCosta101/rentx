@@ -36,7 +36,7 @@ import {
 } from './styles';
 
 import { CarDTO } from '../../dtos/CarDTO';
-
+import { Car as CarModel } from '../../database/model/Car';
 
 interface Params {
   car: CarDTO;
