@@ -68,6 +68,9 @@ export function Profile() {
 
     if (result.uri) {
       setAvatar(result.uri)
+      console.log('#### URI ###');
+
+      console.log(result.uri)
     }
   }
 
@@ -80,7 +83,6 @@ export function Profile() {
           .required('Nome é obrigatório')
       })
       const data = { name, driverLicense }
-      console.log('###DATA', data)
       await schema.validate(data);
 
       await updateUser({
@@ -92,7 +94,6 @@ export function Profile() {
         avatar,
         token: user.token
       });
-      // console.log(user)
       Alert.alert('Perfil atualizado');
     } catch (error) {
       if (error instanceof Yup.ValidationError) {

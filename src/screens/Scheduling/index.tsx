@@ -75,7 +75,6 @@ export function Scheduling() {
 
     setLastSelectedDate(end);
     const interval = generateInterval(start, end);
-    console.log(interval)
     setMarkedDates(interval)
 
     const firstDate = Object.keys(interval)[0];

@@ -40,17 +40,15 @@ export function Home() {
       pullChanges: async ({ lastPulledAt }) => {
         const { data } = await api
           .get(`cars/sync/pull?lastPulledVersion=${lastPulledAt || 0}`)
-        console.log('##### RESPONSE DATA ####')
-        // console.log(JSON.stringify(data, null, 2));
-        console.log(data)
-        const { changes, latestVersion } = data;
+
+        const { changes, latestVersion } = data; // response.data
         return { changes, timestamp: latestVersion };
 
       },
       pushChanges: async ({ changes }) => {
         const user = changes.users;
-        await api.post('users/sync', user);
-        console.log('### CHEGOU AQUI ###########');
+        console.log(user)
+        await api.post('/users/sync', user);
       }
     })
   }
@@ -60,11 +58,8 @@ export function Home() {
     async function fetchCars() {
       try {
         const carCollection = database.get<CarModel>('cars');
-        console.log('CARCOLLECTION');
 
-        console.log(carCollection)
         const cars = await carCollection.query().fetch();
-        console.log(cars)
 
         if (isMounted) {
           setCars(cars)
