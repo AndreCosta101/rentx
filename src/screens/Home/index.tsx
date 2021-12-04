@@ -48,7 +48,9 @@ export function Home() {
       pushChanges: async ({ changes }) => {
         const user = changes.users;
         console.log(user)
-        await api.post('/users/sync', user);
+        if (user.updated.length > 0) {
+          await api.post('/users/sync', user);
+        }
       }
     })
   }
@@ -70,7 +72,6 @@ export function Home() {
         if (isMounted) {
           setLoading(false)
         }
-
       }
     }
 
